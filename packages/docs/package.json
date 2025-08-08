@@ -1,0 +1,19 @@
+{
+  "name": "@duxweb/vitepress-theme-docs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Documentation site for Dux VitePress Theme",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "dependencies": {
+    "@duxweb/vitepress-theme": "workspace:*",
+    "vitepress": "^1.6.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
