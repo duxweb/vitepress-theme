@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // Use repository path when building on GitHub Pages
 const isGitHub = process.env.GITHUB_ACTIONS === 'true'
-const BASE = isGitHub ? '/vitepress/' : '/'
+const BASE = isGitHub ? '/vitepress-theme/' : '/'
 
 export default defineConfig({
   base: BASE,
