@@ -25,6 +25,12 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+          run_install: false
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -33,12 +39,6 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: |
             pnpm-lock.yaml
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.2
-          run_install: false
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
