@@ -30,23 +30,27 @@ const base = computed(() => {
   return rawBase.endsWith('/') ? rawBase : `${rawBase}/`
 })
 
+// 根语言前缀（当 locales 的 key 为 root 时，默认使用 root.lang 作为前缀）
+const rootLocalePrefix = computed(() => {
+  const locales: any = site.value?.locales || {}
+  const root = locales.root || {}
+  const langCode = (root as any).lang as string | undefined
+  return typeof langCode === 'string' && langCode.length > 0 ? langCode : 'zh-CN'
+})
+
 // 获取所有可用语言 - 按配置顺序
 const availableLocales = computed(() => {
   const locales = site.value.locales || {}
   return Object.entries(locales).map(([key, locale]) => {
     const isRoot = key === 'root'
-    const normalizedKey = isRoot ? '' : key
+    const normalizedKey = isRoot ? rootLocalePrefix.value : key
     return {
       key: normalizedKey,
       label: (locale as any).label || key,
-      path: isRoot ? base.value : `${base.value}${normalizedKey}/`
+      path: `${base.value}${normalizedKey}/`
     }
   })
 })
-
-// 获取主语言和第二语言
-const primaryLocale = computed(() => availableLocales.value[0])
-const secondaryLocale = computed(() => availableLocales.value[1])
 
 // 获取本地化文本 - 简化逻辑
 const localizedTexts = computed(() => ({
@@ -87,8 +91,8 @@ const detectUserLanguage = (): string => {
     if (prefixMatch) return prefixMatch.key
   }
   
-  // 默认返回第一个语言（root）
-  return availableLocales.value[0]?.key || ''
+  // 默认返回 root 的语言前缀
+  return availableLocales.value[0]?.key || rootLocalePrefix.value
 }
 
 // 执行跳转
@@ -98,8 +102,9 @@ const jumpToLocale = (locale: string) => {
   // 保存用户选择
   localStorage.setItem('vitepress-preferred-lang', locale)
   
-  // 构建目标路径
-  const targetPath = locale ? `${base.value}${locale}/` : base.value
+  // 构建目标路径（root 也带语言前缀）
+  const normalized = locale && locale.length > 0 ? locale : rootLocalePrefix.value
+  const targetPath = `${base.value}${normalized}/`
   window.location.href = targetPath
 }
 
