@@ -2,57 +2,47 @@
 import { onMounted, ref, computed } from 'vue'
 import { useData } from 'vitepress'
 import { useLocale } from '../../composables/useLocale'
+import { useLink } from '../../composables/useLink'
 
 const { site, frontmatter } = useData()
-
-// 使用语言包
+const { resolveLink } = useLink()
 const jumpTexts = useLocale('jump')
 
-// 跳转配置 - 简化配置项
-interface JumpConfig {
-  delay?: number // 跳转延迟（毫秒）
-  showManual?: boolean // 是否显示手动选择
-}
-
-// 从 frontmatter 获取配置，带默认值
-const jumpConfig: JumpConfig = {
-  delay: 1000,
-  showManual: true,
-  ...frontmatter.value.jump
-}
-
+// 配置
 const showManualSelect = ref(false)
-const countdown = ref(Math.floor(jumpConfig.delay! / 1000))
+const countdown = ref(3)
 
-// 站点基础路径（支持子目录部署）
-const base = computed(() => {
-  const rawBase = site.value?.base || '/'
-  return rawBase.endsWith('/') ? rawBase : `${rawBase}/`
-})
-
-// 根语言前缀（当 locales 的 key 为 root 时，默认使用 root.lang 作为前缀）
-const rootLocalePrefix = computed(() => {
-  const locales: any = site.value?.locales || {}
-  const root = locales.root || {}
-  const langCode = (root as any).lang as string | undefined
-  return typeof langCode === 'string' && langCode.length > 0 ? langCode : 'zh-CN'
-})
-
-// 获取所有可用语言 - 按配置顺序
+// 获取可用语言列表
 const availableLocales = computed(() => {
   const locales = site.value.locales || {}
   return Object.entries(locales).map(([key, locale]) => {
-    const isRoot = key === 'root'
-    const normalizedKey = isRoot ? rootLocalePrefix.value : key
+    const localeData = locale as any
+    // 获取实际的语言代码
+    const langCode = localeData.lang || key
+    
+    // 获取实际的跳转路径
+    let targetPath = ''
+    if (localeData.link) {
+      // 使用配置的 link
+      targetPath = resolveLink(localeData.link)
+    } else if (key === 'root') {
+      // root 如果没有配置 link，使用语言代码作为路径
+      targetPath = resolveLink(`/${langCode}/`)
+    } else {
+      // 其他语言使用 key 作为路径
+      targetPath = resolveLink(`/${key}/`)
+    }
+    
     return {
-      key: normalizedKey,
-      label: (locale as any).label || key,
-      path: `${base.value}${normalizedKey}/`
+      key: key,
+      label: localeData.label || key,
+      lang: langCode,
+      path: targetPath
     }
   })
 })
 
-// 获取本地化文本 - 简化逻辑
+// 文本内容
 const localizedTexts = computed(() => ({
   redirecting: jumpTexts.value?.redirecting || 'Redirecting to preferred language...',
   redirectingSecondary: jumpTexts.value?.redirectingSecondary || '',
@@ -62,83 +52,55 @@ const localizedTexts = computed(() => ({
 }))
 
 // 检测用户语言偏好
-const detectUserLanguage = (): string => {
-  if (typeof window === 'undefined') return ''
-  
-  // 从 URL 参数获取
-  const urlParams = new URLSearchParams(window.location.search)
-  const urlLang = urlParams.get('lang')
-  if (urlLang) return urlLang
-  
-  // 从 localStorage 获取
-  const savedLang = localStorage.getItem('vitepress-preferred-lang')
-  if (savedLang) return savedLang
-  
-  // 从浏览器语言获取
-  const browserLang = navigator.language || navigator.languages?.[0]
-  if (browserLang) {
-    // 匹配完整语言代码 (zh-CN)
-    const exactMatch = availableLocales.value.find((locale: any) => 
-      locale.key === browserLang || locale.key === browserLang.replace('_', '-')
-    )
-    if (exactMatch) return exactMatch.key
-    
-    // 匹配语言前缀 (zh)
-    const langPrefix = browserLang.split('-')[0]
-    const prefixMatch = availableLocales.value.find((locale: any) => 
-      locale.key.startsWith(langPrefix)
-    )
-    if (prefixMatch) return prefixMatch.key
+const detectUserLanguage = () => {
+  // 1. URL 参数优先
+  const urlLang = new URLSearchParams(window.location.search).get('lang')
+  if (urlLang) {
+    const match = availableLocales.value.find(l => l.lang === urlLang || l.key === urlLang)
+    if (match) return match.key
   }
   
-  // 默认返回 root 的语言前缀
-  return availableLocales.value[0]?.key || rootLocalePrefix.value
+  // 2. 浏览器语言
+  const browserLang = navigator.language?.toLowerCase().replace('_', '-')
+  if (browserLang) {
+    // 精确匹配语言代码
+    const exact = availableLocales.value.find(l => 
+      l.lang.toLowerCase() === browserLang
+    )
+    if (exact) return exact.key
+    
+    // 前缀匹配
+    const prefix = browserLang.split('-')[0]
+    const match = availableLocales.value.find(l => 
+      l.lang.toLowerCase().startsWith(prefix)
+    )
+    if (match) return match.key
+  }
+  
+  // 3. 默认使用第一个配置的语言
+  return availableLocales.value[0]?.key || 'root'
 }
 
 // 执行跳转
-const jumpToLocale = (locale: string) => {
-  if (typeof window === 'undefined') return
-  
-  // 保存用户选择
-  localStorage.setItem('vitepress-preferred-lang', locale)
-  
-  // 构建目标路径（root 也带语言前缀）
-  const normalized = locale && locale.length > 0 ? locale : rootLocalePrefix.value
-  const targetPath = `${base.value}${normalized}/`
-  window.location.href = targetPath
-}
-
-// 手动选择语言
-const selectLanguage = (locale: string) => {
-  jumpToLocale(locale)
+const jumpToLocale = (localeKey: string) => {
+  const target = availableLocales.value.find(l => l.key === localeKey)
+  if (target) {
+    window.location.href = target.path
+  }
 }
 
 onMounted(() => {
-  // 如果已经在某个语言路径下，不执行跳转
-  const currentPath = window.location.pathname
-  // 在根路径（考虑 base 子目录场景）才进行自动跳转
-  if (currentPath !== base.value && currentPath !== `${base.value}index.html`) return
-  
   const targetLocale = detectUserLanguage()
+  showManualSelect.value = true
   
-  // 开始倒计时
-  if (jumpConfig.delay! > 0) {
-    const interval = setInterval(() => {
-      countdown.value--
-      if (countdown.value <= 0) {
-        clearInterval(interval)
-        jumpToLocale(targetLocale)
-      }
-    }, 1000)
-    
-    // 显示手动选择
-    if (jumpConfig.showManual) {
-      showManualSelect.value = true
+  // 倒计时跳转
+  const timer = setInterval(() => {
+    countdown.value--
+    if (countdown.value <= 0) {
+      clearInterval(timer)
+      jumpToLocale(targetLocale)
     }
-  } else {
-    // 立即跳转
-    jumpToLocale(targetLocale)
-  }
+  }, 1000)
 })
 </script>
 
@@ -202,7 +164,7 @@ onMounted(() => {
             <button
               v-for="locale in availableLocales"
               :key="locale.key"
-              @click="selectLanguage(locale.key)"
+              @click="jumpToLocale(locale.key)"
               class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-all group"
             >
               <span class="text-gray-700 dark:text-gray-300 group-hover:text-primary-700 dark:group-hover:text-primary-300 font-medium">

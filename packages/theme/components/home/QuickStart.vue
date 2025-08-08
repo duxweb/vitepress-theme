@@ -60,7 +60,7 @@ const getColorClass = (color: string) => {
 <template>
   <section v-if="quickStart" class="section-padding bg-gray-50 dark:bg-gray-950/25 overflow-hidden relative">
     <!-- 背景装饰 -->
-    <div class="absolute inset-0" style="background-image: url('/pattern-dots.svg');">
+    <div class="absolute inset-0">
       <div class="absolute top-1/2 left-0 w-64 h-64 bg-primary-100/30 dark:bg-primary-800/20 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2"></div>
       <div class="absolute top-1/2 right-0 w-80 h-80 bg-primary-200/20 dark:bg-primary-700/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
     </div>

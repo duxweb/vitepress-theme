@@ -159,10 +159,7 @@ const processedFeatures = computed(() =>
 
 
     <div v-if="config?.extraSection" class="container-section">
-      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary-500 via-primary-600 to-primary-500 dark:from-primary-600 dark:via-primary-700 dark:to-primary-600 p-12 text-center shadow-2xl">
-        <!-- 背景图案 -->
-        <div class="absolute inset-0" style="background-image: url('/pattern-dots.svg');"></div>
-        
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary-500 via-primary-600 to-primary-500 dark:from-primary-600 dark:via-primary-700 dark:to-primary-600 p-12 text-center shadow-2xl">        
         <div class="relative">
           <h3 v-if="config?.extraSection?.title" class="text-3xl md:text-4xl font-bold text-white mb-6">
             {{ config.extraSection.title }}

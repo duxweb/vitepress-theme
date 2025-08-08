@@ -6,11 +6,13 @@ import SearchButton from '../search/SearchButton.vue'
 import SocialIcons from '../common/SocialIcons.vue'
 import NavDropdown from '../common/NavDropdown.vue'
 import { useLocale } from '../../composables/useLocale'
+import { useLink } from '../../composables/useLink'
 
 // 使用 VitePress 的 useData 获取主题数据
-const { isDark, site, theme, page, localeIndex, lang } = useData()
+const { isDark, site, theme, localeIndex } = useData()
 const router = useRouter()
 const ui = useLocale('ui')
+const { resolveLink } = useLink()
 
 // 安全访问 UI 文本的计算属性
 const uiTexts = computed(() => ({
@@ -58,11 +60,6 @@ const currentLocale = computed(() => {
   if (!locale || typeof locale !== 'object') return null
   return locale as any
 })
-const currentLangLink = computed(() => {
-  const locale = locales.value[localeIndex.value]
-  if (!locale) return '/'
-  return localeIndex.value === 'root' ? '/' : `/${localeIndex.value}/`
-})
 
 // 生成语言切换链接 - 直接跳转到对应语言首页
 const localeLinks = computed(() => {
@@ -76,7 +73,7 @@ const localeLinks = computed(() => {
       links.push({
         key,
         label: (locale as any).label || key,
-        link
+        link: resolveLink(link)  // 使用 resolveLink 处理链接
       })
     }
   }
@@ -120,11 +117,6 @@ const toggleDark = () => {
     isDark.value = !isDark.value
     return
   }
-
-  // 使用 View Transitions API 实现平滑切换
-  const transition = document.startViewTransition(() => {
-    isDark.value = !isDark.value
-  })
 }
 
 // 移动端菜单状态
@@ -139,7 +131,7 @@ const toggleMobileMenu = () => {
     <div class="container mx-auto flex h-16 max-w-screen-2xl items-center px-4">
       <!-- Logo -->
       <div class="mr-4 flex">
-        <a href="/" class="mr-6 flex items-center space-x-2">
+        <a :href="resolveLink('/')" class="mr-6 flex items-center space-x-2">
           <img v-if="logo" :src="logo" alt="Logo" class="h-6 w-6" />
           <span v-if="siteTitle" class="hidden font-bold sm:inline-block">{{ siteTitle }}</span>
         </a>

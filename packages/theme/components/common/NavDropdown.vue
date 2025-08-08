@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vitepress'
+import { useLink } from '../../composables/useLink'
 
 interface NavItem {
   text: string
@@ -20,6 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const router = useRouter()
+const { isExternalLink: checkExternalLink, resolveLink } = useLink()
 const isOpen = ref(false)
 const dropdownRef = ref<HTMLElement>()
 
@@ -30,7 +32,12 @@ const hasChildren = computed(() => {
 
 // 判断是否为外部链接
 const isExternalLink = computed(() => {
-  return props.item.link && /^https?:\/\//.test(props.item.link)
+  return props.item.link ? checkExternalLink(props.item.link) : false
+})
+
+// 获取处理后的链接
+const resolvedLink = computed(() => {
+  return props.item.link ? resolveLink(props.item.link) : ''
 })
 
 // 点击外部关闭下拉菜单
@@ -48,10 +55,10 @@ const toggleMenu = () => {
 }
 
 // 处理导航点击
-const handleNavClick = (e: Event, item: NavItem) => {
-  if (item.link && !isExternalLink.value) {
+const handleNavClick = (e: Event) => {
+  if (resolvedLink.value && !isExternalLink.value) {
     e.preventDefault()
-    router.go(item.link)
+    router.go(resolvedLink.value)
     isOpen.value = false
   }
 }
@@ -84,10 +91,10 @@ onUnmounted(() => {
     
     <a
       v-else
-      :href="item.link"
+      :href="resolvedLink"
       :target="item.target || '_self'"
       :rel="item.target === '_blank' ? 'noopener noreferrer' : undefined"
-      @click="handleNavClick($event, item)"
+      @click="handleNavClick($event)"
       class="nav-dropdown-link"
     >
       {{ item.text }}

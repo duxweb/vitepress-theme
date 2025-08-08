@@ -2,10 +2,12 @@
 import { ref, onMounted, watch } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import { useLocale } from '../../composables/useLocale'
+import { useLink } from '../../composables/useLink'
 
 // 使用 VitePress 内置数据
 const { page, theme } = useData()
 const route = useRoute()
+const { resolveLink } = useLink()
 
 // 获取多语言文本
 const sidebarTexts = useLocale('sidebar')
@@ -170,7 +172,7 @@ onMounted(() => {
                     <!-- 子项有链接 -->
                     <a 
                       v-if="subItem.link"
-                      :href="subItem.link"
+                      :href="resolveLink(subItem.link)"
                       :class="[
                         'block px-3 py-2 text-sm rounded-md transition-colors duration-200',
                         isLinkActive(subItem.link)
@@ -190,7 +192,7 @@ onMounted(() => {
                       <ul class="space-y-1">
                         <li v-for="nestedItem in subItem.items" :key="nestedItem.link">
                           <a 
-                            :href="nestedItem.link"
+                            :href="resolveLink(nestedItem.link)"
                             :class="[
                               'block px-3 py-2 text-sm rounded-md transition-colors duration-200 ml-2',
                               isLinkActive(nestedItem.link)
@@ -211,7 +213,7 @@ onMounted(() => {
               <!-- 直接链接 -->
               <div v-else-if="item.link" class="mb-1">
                 <a 
-                  :href="item.link"
+                  :href="resolveLink(item.link)"
                   :class="[
                     'block px-3 py-2 text-sm rounded-md transition-colors duration-200',
                     isLinkActive(item.link)

@@ -11,6 +11,7 @@ export default defineConfig({
       cssMinify: false
     }
   },
+  
   // 站点配置
   title: 'Dux Docs',
   description: 'A modern and elegant VitePress theme',
