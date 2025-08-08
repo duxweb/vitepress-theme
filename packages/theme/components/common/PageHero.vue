@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useIcon } from '../../composables/useIcon'
+import { useLink } from '../../composables/useLink'
 
 interface Props {
   title?: string
@@ -18,6 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const { getIconClass, isEmoji, isImageUrl } = useIcon()
+const { resolveAsset } = useLink()
 
 // 计算图标类型
 const iconType = computed(() => {
@@ -47,7 +49,7 @@ const iconClass = computed(() => {
         <div v-if="icon && iconType === 'emoji'" class="page-hero-icon text-4xl">
           {{ icon }}
         </div>
-        <img v-else-if="icon && iconType === 'image'" :src="icon" class="page-hero-icon w-12 h-12" />
+        <img v-else-if="icon && iconType === 'image'" :src="resolveAsset(icon)" class="page-hero-icon w-12 h-12" />
         <div v-else-if="icon && iconType === 'class'" :class="['page-hero-icon', iconClass]"></div>
         
         <h1 v-if="title" class="page-hero-title">

@@ -4,9 +4,11 @@ import { ref, computed } from 'vue'
 import PageHero from '../common/PageHero.vue'
 import { useLocale } from '../../composables/useLocale'
 import { useIcon } from '../../composables/useIcon'
+import { useLink } from '../../composables/useLink'
 
 const { frontmatter } = useData()
 const { isEmoji, isImageUrl } = useIcon()
+const { resolveAsset } = useLink()
 
 // 获取多语言配置
 const locale = useLocale('sponsor')
@@ -119,7 +121,7 @@ const getIconType = (icon: string | undefined): 'class' | 'emoji' | 'image' | 's
                     <!-- 图片图标 -->
                     <img 
                       v-else-if="getIconType(method.icon) === 'image'"
-                      :src="method.icon"
+                      :src="resolveAsset(method.icon)"
                       :alt="method.name"
                       class="sponsor-payment-icon w-5 h-5 object-contain"
                     />
@@ -127,7 +129,7 @@ const getIconType = (icon: string | undefined): 'class' | 'emoji' | 'image' | 's
                     <!-- SVG 图标（如果是 .svg 文件） -->
                     <img 
                       v-else-if="getIconType(method.icon) === 'svg' && method.icon.endsWith('.svg')"
-                      :src="method.icon"
+                      :src="resolveAsset(method.icon)"
                       :alt="method.name"
                       class="sponsor-payment-icon w-5 h-5"
                     />
@@ -154,7 +156,7 @@ const getIconType = (icon: string | undefined): 'class' | 'emoji' | 'image' | 's
               <div class="sponsor-payment-qrcode">
                 <div v-if="paymentMethods[activeMethod].qrcode" class="sponsor-payment-qrcode-wrapper">
                   <img 
-                    :src="paymentMethods[activeMethod].qrcode" 
+                    :src="resolveAsset(paymentMethods[activeMethod].qrcode)" 
                     :alt="paymentMethods[activeMethod].name"
                     class="sponsor-payment-qrcode-img"
                   />

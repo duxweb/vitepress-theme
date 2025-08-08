@@ -8,13 +8,11 @@ import NavDropdown from '../common/NavDropdown.vue'
 import { useLocale } from '../../composables/useLocale'
 import { useLink } from '../../composables/useLink'
 
-// 使用 VitePress 的 useData 获取主题数据
 const { isDark, site, theme, localeIndex } = useData()
 const router = useRouter()
 const ui = useLocale('ui')
 const { resolveLink } = useLink()
 
-// 安全访问 UI 文本的计算属性
 const uiTexts = computed(() => ({
   switchTheme: {
     dark: ui.value?.switchTheme?.dark || 'Switch to dark mode',
@@ -26,7 +24,6 @@ const uiTexts = computed(() => ({
   }
 }))
 
-// 定义 Props（保持向后兼容）
 interface Props {
   themeConfig?: DefaultTheme.Config
   site?: any
@@ -36,24 +33,34 @@ interface Props {
 
 const props = defineProps<Props>()
 
-// 使用 VitePress 提供的数据，Props 作为后备
 const themeConfig = computed(() => props.themeConfig || theme.value)
 const siteData = computed(() => props.site || site.value)
 
-// 计算站点标题
 const siteTitle = computed(() => 
   themeConfig.value.siteTitle !== false 
     ? (themeConfig.value.siteTitle || siteData.value.title)
     : false
 )
 
-// 处理导航数据
 const navItems = computed(() => themeConfig.value.nav || [])
 
-// 处理 Logo - 先不传递图片
-const logo = computed(() => null)
+const logo = computed(() => {
+  const logoConfig = themeConfig.value.logo
+  if (!logoConfig) return null
+  
+  if (typeof logoConfig === 'string') {
+    return resolveLink(logoConfig)
+  }
+  if (typeof logoConfig === 'object') {
+    return {
+      light: logoConfig.light ? resolveLink(logoConfig.light) : null,
+      dark: logoConfig.dark ? resolveLink(logoConfig.dark) : null
+    }
+  }
+  
+  return null
+})
 
-// 多语言相关
 const locales = computed(() => site.value.locales || {})
 const currentLocale = computed(() => {
   const locale = locales.value[localeIndex.value]
@@ -61,30 +68,35 @@ const currentLocale = computed(() => {
   return locale as any
 })
 
-// 生成语言切换链接 - 直接跳转到对应语言首页
 const localeLinks = computed(() => {
   const links: Array<{key: string, label: string, link: string}> = []
   
   for (const [key, locale] of Object.entries(locales.value)) {
     if (key !== localeIndex.value && locale && typeof locale === 'object') {
-      // 直接跳转到对应语言的首页
-      const link = key === 'root' ? '/' : `/${key}/`
+      const localeData = locale as any
+      
+      let targetPath = ''
+      if (localeData.link) {
+        targetPath = resolveLink(localeData.link)
+      } else if (key === 'root') {
+        targetPath = resolveLink('/')
+      } else {
+        targetPath = resolveLink(`/${key}/`)
+      }
       
       links.push({
         key,
-        label: (locale as any).label || key,
-        link: resolveLink(link)  // 使用 resolveLink 处理链接
+        label: localeData.label || key,
+        link: targetPath
       })
     }
   }
   return links
 })
 
-// 语言切换菜单状态
 const showLangMenu = ref(false)
 const langMenuRef = ref<HTMLElement>()
 
-// 点击外部关闭语言菜单
 const handleClickOutside = (event: MouseEvent) => {
   if (langMenuRef.value && !langMenuRef.value.contains(event.target as Node)) {
     showLangMenu.value = false
@@ -99,27 +111,26 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
-// 切换语言 - 直接使用链接导航
 const switchLocale = (link: string) => {
   router.go(link)
   showLangMenu.value = false
 }
 
-// VitePress 官方主题切换功能，支持 View Transitions
 const toggleDark = () => {
-  // 检查是否支持 View Transitions API 和用户偏好
   const enableTransitions = () =>
     'startViewTransition' in document &&
     window.matchMedia('(prefers-reduced-motion: no-preference)').matches
 
   if (!enableTransitions()) {
-    // 直接切换，不使用动画
     isDark.value = !isDark.value
     return
   }
+  
+  document.startViewTransition(() => {
+    isDark.value = !isDark.value
+  })
 }
 
-// 移动端菜单状态
 const toggleMobileMenu = () => {
   const menu = document.getElementById('mobile-menu')
   menu?.classList.toggle('hidden')
@@ -129,29 +140,29 @@ const toggleMobileMenu = () => {
 <template>
   <header class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
     <div class="container mx-auto flex h-16 max-w-screen-2xl items-center px-4">
-      <!-- Logo -->
       <div class="mr-4 flex">
         <a :href="resolveLink('/')" class="mr-6 flex items-center space-x-2">
-          <img v-if="logo" :src="logo" alt="Logo" class="h-6 w-6" />
-          <span v-if="siteTitle" class="hidden font-bold sm:inline-block">{{ siteTitle }}</span>
+          <template v-if="logo">
+            <img v-if="typeof logo === 'string'" :src="logo" alt="Logo" class="h-6 w-6" />
+            <template v-else-if="typeof logo === 'object'">
+              <img v-if="isDark && logo.dark" :src="logo.dark" alt="Logo" class="h-6 w-6" />
+              <img v-else-if="!isDark && logo.light" :src="logo.light" alt="Logo" class="h-6 w-6" />
+            </template>
+          </template>
+          <span v-if="siteTitle" class="font-bold">{{ siteTitle }}</span>
         </a>
       </div>
 
-      <!-- Desktop navigation menu -->
       <nav class="hidden md:flex items-center gap-6 text-sm">
         <template v-for="item in navItems" :key="item.text">
-          <!-- 使用下拉菜单组件处理多级菜单 -->
           <NavDropdown :item="item" />
         </template>
       </nav>
 
-      <!-- 右侧操作区 -->
       <div class="flex flex-1 items-center justify-end space-x-2">
 
-        <!-- Search button -->
         <SearchButton class="hidden md:flex" />
 
-        <!-- 语言切换器 -->
         <div v-if="Object.keys(locales).length > 1" class="relative" ref="langMenuRef">
           <button
             type="button"
@@ -163,7 +174,6 @@ const toggleMobileMenu = () => {
             <div class="icon-[heroicons--language] h-4 w-4"></div>
           </button>
           
-          <!-- 语言下拉菜单 -->
           <Transition
             enter-active-class="transition-all duration-200 ease-out"
             enter-from-class="opacity-0 transform scale-95 -translate-y-1"
@@ -188,10 +198,8 @@ const toggleMobileMenu = () => {
           </Transition>
         </div>
 
-        <!-- 社交链接 -->
         <SocialIcons variant="header" />
 
-        <!-- 主题切换按钮 -->
         <button
           type="button"
           class="btn-ghost px-2 theme-toggle"
@@ -203,7 +211,6 @@ const toggleMobileMenu = () => {
         </button>
 
 
-        <!-- 移动端菜单按钮 -->
         <button
           type="button"
           class="btn-ghost px-2 [w-2rem] h-[2rem] md:hidden"
@@ -219,13 +226,10 @@ const toggleMobileMenu = () => {
 
     
 
-    <!-- Mobile navigation menu -->
     <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
       <div class="container mx-auto px-4 py-4 space-y-4">
-        <!-- Mobile search button -->
         <SearchButton class="w-full" />
         
-        <!-- Mobile navigation links -->
         <nav class="flex flex-col space-y-2">
           <template v-for="item in navItems" :key="item.text">
             <NavDropdown :item="item" />

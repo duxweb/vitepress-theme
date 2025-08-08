@@ -2,7 +2,7 @@ import { computed } from 'vue'
 import { useData, withBase } from 'vitepress'
 
 /**
- * 处理链接，自动添加 base 前缀
+ * 处理链接和资源路径，自动添加 base 前缀
  */
 export function useLink() {
   const { site } = useData()
@@ -34,6 +34,27 @@ export function useLink() {
     
     // 使用 VitePress 的 withBase 函数
     return withBase(link)
+  }
+  
+  /**
+   * 处理静态资源路径（图片、视频等）
+   * 适用于 public 目录下的资源
+   */
+  const resolveAsset = (path: string | undefined): string => {
+    if (!path) return ''
+    
+    // 外部资源不处理
+    if (/^https?:\/\//.test(path)) {
+      return path
+    }
+    
+    // data: URLs 不处理
+    if (path.startsWith('data:')) {
+      return path
+    }
+    
+    // 使用 withBase 处理资源路径
+    return withBase(path)
   }
   
   /**
@@ -77,6 +98,7 @@ export function useLink() {
   return {
     isExternalLink,
     resolveLink,
+    resolveAsset,
     resolveNavLinks,
     resolveSidebarLinks
   }

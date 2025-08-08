@@ -50,7 +50,7 @@
             <a
               v-for="(result, index) in searchResults"
               :key="result.id"
-              :href="result.url"
+              :href="resolveLink(result.url)"
               class="search-result block px-4 py-3 hover:bg-primary-600/10 transition-colors"
               :class="{ 'bg-primary-600/10': selectedIndex === index }"
               @click.prevent="selectSearchResult(index)"
@@ -115,6 +115,7 @@
 import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vitepress'
 import { useLocale } from '../../composables/useLocale'
+import { useLink } from '../../composables/useLink'
 import { 
   isSearchOpen, 
   searchQuery, 
@@ -129,6 +130,7 @@ import {
 
 const searchInput = ref<HTMLInputElement>()
 const router = useRouter()
+const { resolveLink } = useLink()
 
 // 获取多语言文本
 const searchTexts = useLocale('search')
@@ -169,7 +171,7 @@ const clearSearch = () => {
 // 选择搜索结果
 const selectSearchResult = (index: number) => {
   selectResult(index, (url: string) => {
-    router.go(url)
+    router.go(resolveLink(url))
   })
 }
 
