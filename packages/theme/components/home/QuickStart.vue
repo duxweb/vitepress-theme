@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useIcon } from '../../composables/useIcon'
+import { useLink } from '../../composables/useLink'
 
 // 定义 Props
 interface Props {
@@ -25,6 +26,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const { getIconClass } = useIcon()
+const { resolveLink } = useLink()
 
 // 使用 computed 使 steps 响应式
 const steps = computed(() => props.quickStart?.steps || [])
@@ -163,7 +165,7 @@ const getColorClass = (color: string) => {
             <div class="icon-[heroicons--information-circle] w-5 h-5 text-primary-600 dark:text-primary-400 mr-3"></div>
             <span class="text-primary-700 dark:text-primary-300 font-medium">
               {{ quickStart.helpText }}
-              <a v-if="quickStart.helpLink" :href="quickStart.helpLink" class="underline hover:no-underline">
+              <a v-if="quickStart.helpLink" :href="resolveLink(quickStart.helpLink)" class="underline hover:no-underline">
                 {{ quickStart.helpLinkText }}
               </a>
             </span>

@@ -1,6 +1,6 @@
 {
   "name": "@duxweb/vitepress-theme",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A modern VitePress theme",
   "type": "module",
   "main": "./dist/cjs/index.cjs",

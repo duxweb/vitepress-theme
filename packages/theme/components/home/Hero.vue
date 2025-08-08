@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useLink } from '../../composables/useLink'
 
 // 定义按钮接口
 interface HeroAction {
@@ -29,12 +30,14 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const { resolveLink, resolveAsset } = useLink()
 
 // 使用 computed 使 actions 响应式
 const processedActions = computed(() => 
   props.hero.actions?.map((action: HeroAction) => ({
     ...action,
-    primary: action.theme === 'brand'
+    primary: action.theme === 'brand',
+    href: resolveLink(action.link)
   })) || []
 )
 
@@ -82,7 +85,7 @@ const mockUrl = computed(() => props.hero.mockUrl || 'vitepress.dev')
         <a 
           v-for="action in processedActions"
           :key="action.text"
-          :href="action.link"
+          :href="action.href"
           :target="action.target || '_self'"
           :rel="action.target === '_blank' ? 'noopener noreferrer' : undefined"
           :class="action.primary ? 'btn-primary group' : 'btn-secondary group'"
@@ -123,7 +126,7 @@ const mockUrl = computed(() => props.hero.mockUrl || 'vitepress.dev')
               <!-- 实际图片 -->
               <img 
                 v-if="hero.image && hero.image.src"
-                :src="hero.image.src" 
+                :src="resolveAsset(hero.image.src)" 
                 :alt="hero.image.alt || ''" 
                 class="w-full h-full object-cover"
               />

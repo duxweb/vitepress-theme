@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useIcon } from '../../composables/useIcon'
+import { useLink } from '../../composables/useLink'
 
 // 定义 Props
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const { getIconClass } = useIcon()
+const { resolveLink } = useLink()
 
 // 定义固定的颜色方案
 const colorVariants = {
@@ -44,10 +46,11 @@ const getColorClass = (color: string) => {
 // 使用 computed 使 features 响应式
 const processedFeatures = computed(() => 
   props.features.map((feature: any) => ({
+    ...feature,
     icon: feature.icon || "star",
     color: feature.color || 'blue',
     iconClass: typeof feature.icon === 'string' ? getIconClass(feature.icon) : feature.icon,
-    ...feature
+    link: feature.link ? resolveLink(feature.link) : undefined
   }))
 )
 </script>
