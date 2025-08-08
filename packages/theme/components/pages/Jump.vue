@@ -24,14 +24,24 @@ const jumpConfig: JumpConfig = {
 const showManualSelect = ref(false)
 const countdown = ref(Math.floor(jumpConfig.delay! / 1000))
 
+// 站点基础路径（支持子目录部署）
+const base = computed(() => {
+  const rawBase = site.value?.base || '/'
+  return rawBase.endsWith('/') ? rawBase : `${rawBase}/`
+})
+
 // 获取所有可用语言 - 按配置顺序
 const availableLocales = computed(() => {
   const locales = site.value.locales || {}
-  return Object.entries(locales).map(([key, locale]) => ({
-    key: key === 'root' ? '' : key,
-    label: (locale as any).label || key,
-    path: key === 'root' ? '/' : `/${key}/`
-  }))
+  return Object.entries(locales).map(([key, locale]) => {
+    const isRoot = key === 'root'
+    const normalizedKey = isRoot ? '' : key
+    return {
+      key: normalizedKey,
+      label: (locale as any).label || key,
+      path: isRoot ? base.value : `${base.value}${normalizedKey}/`
+    }
+  })
 })
 
 // 获取主语言和第二语言
@@ -89,7 +99,7 @@ const jumpToLocale = (locale: string) => {
   localStorage.setItem('vitepress-preferred-lang', locale)
   
   // 构建目标路径
-  const targetPath = locale ? `/${locale}/` : '/'
+  const targetPath = locale ? `${base.value}${locale}/` : base.value
   window.location.href = targetPath
 }
 
@@ -100,7 +110,9 @@ const selectLanguage = (locale: string) => {
 
 onMounted(() => {
   // 如果已经在某个语言路径下，不执行跳转
-  if (window.location.pathname !== '/') return
+  const currentPath = window.location.pathname
+  // 在根路径（考虑 base 子目录场景）才进行自动跳转
+  if (currentPath !== base.value && currentPath !== `${base.value}index.html`) return
   
   const targetLocale = detectUserLanguage()
   
