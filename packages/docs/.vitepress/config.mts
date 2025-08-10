@@ -1,6 +1,5 @@
 import { defineConfig } from 'vitepress'
 
-// Use repository path when building on GitHub Pages
 const isGitHub = process.env.GITHUB_ACTIONS === 'true'
 const BASE = isGitHub ? '/vitepress-theme/' : '/vitepress-theme/'
 
@@ -8,12 +7,9 @@ export default defineConfig({
   base: BASE,
   vite: {
     ssr: {
-      // Ensure Vite processes the theme package so VitePress can
-      // transform `createContentLoader` in `search.data.ts` within deps
       noExternal: ['@duxweb/vitepress-theme']
     },
     optimizeDeps: {
-      // Avoid pre-bundling theme so Vite applies transforms instead
       exclude: ['@duxweb/vitepress-theme']
     },
     build: {

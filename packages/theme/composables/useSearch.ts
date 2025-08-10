@@ -1,50 +1,7 @@
 import { ref, watch } from 'vue'
 import MiniSearch from 'minisearch'
 import type { Ref } from 'vue'
-
-// 重要说明：不要对 `./search.data` 进行静态导入。
-// 当主题作为已发布包放在 node_modules 中时，VitePress 可能不会对
-// 依赖里的 `.data.ts` 应用转换（createContentLoader 仅在源码内被处理），
-// 这会导致客户端运行时报错。这里改为“按需动态导入”，并在失败时优雅降级。
-
-let docsDataCache: SearchResult[] | null = null
-
-async function loadDocsData(): Promise<SearchResult[]> {
-  if (docsDataCache) return docsDataCache
-
-  // 1) 优先尝试从主题内置的 `./search.data` 加载（在 monorepo 或配置了 noExternal 时可用）
-  try {
-    const mod: any = await import('./search.data')
-    const loaded = (mod?.data ?? mod?.default ?? []) as SearchResult[]
-    docsDataCache = loaded
-    return docsDataCache
-  } catch {}
-
-  // 2) 回退：尝试从站点源码侧加载（无需配置，只需在项目里新建该文件）
-  //    因为它位于站点源码中，VitePress 一定会对其进行 `.data` 转换。
-  //    你可以在你的项目创建：`/.vitepress/search.data.ts`，内容与主题内置版本一致即可。
-  try {
-    // 避免在打包时被 Rollup 解析为静态字符串导入（保持动态）
-    let siteSpec: string | undefined
-    try {
-      // 允许用户通过 data-attr 指定自定义路径（可选）
-      siteSpec = (document as any)?.documentElement?.getAttribute?.('data-vp-search')
-    } catch {}
-    siteSpec = siteSpec || '/.vitepress/search.data.ts'
-    // @ts-ignore - 运行时由 Vite 处理解析
-    const modSite: any = await import(/* @vite-ignore */ siteSpec)
-    const loaded = (modSite?.data ?? modSite?.default ?? []) as SearchResult[]
-    docsDataCache = loaded
-    return docsDataCache
-  } catch {}
-
-  // 3) 最终降级：返回空数据，搜索功能将不会报错但没有结果。
-  //    想获得完整搜索功能，请在使用方配置：
-  //    vite: { ssr: { noExternal: ['@duxweb/vitepress-theme'] } }
-  console.warn('[vitepress-theme] 搜索数据未就绪，已回退为空索引。建议配置 vite.ssr.noExternal 或在站点内创建 /.vitepress/search.data.ts')
-  docsDataCache = []
-  return docsDataCache
-}
+import { data } from './search.data'
 
 // 搜索结果接口
 export interface SearchResult {
@@ -76,11 +33,8 @@ export async function initSearchIndex() {
       storeFields: ['title', 'text', 'url', 'section']
     })
     
-    // 动态加载文档数据（若 transform 未生效则为空数组）
-    const docs = await loadDocsData()
-    if (docs?.length) {
-      searchIndex.value.addAll(docs as any)
-    }
+    // 添加所有文档到搜索索引
+    searchIndex.value.addAll(data as any)
   } catch (error) {
     console.error('Failed to initialize search index:', error)
   } finally {

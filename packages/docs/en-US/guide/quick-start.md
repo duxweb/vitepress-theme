@@ -36,6 +36,24 @@ yarn add @duxweb/vitepress-theme
 
 ## Configure the theme
 
+### Configure VitePress
+
+Add the required Vite configuration in `.vitepress/config.ts`:
+
+```typescript
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  // ⚠️ Important: The following vite configuration is required for the theme to work properly
+  vite: {
+    ssr: { noExternal: ['@duxweb/vitepress-theme'] },
+    optimizeDeps: { exclude: ['@duxweb/vitepress-theme'] }
+  }
+})
+```
+
+### Configure theme files
+
 Configure the theme in `.vitepress/theme/index.ts`:
 
 ```typescript
