@@ -77,6 +77,18 @@ export default {
 }
 ```
 
+Search note:
+- Works out of the box with graceful fallback. Without extra config, search runs with an empty index (no crash, but no results).
+- To enable full search, add the following to `.vitepress/config`:
+  ```ts
+  export default defineConfig({
+    vite: {
+      ssr: { noExternal: ['@duxweb/vitepress-theme'] },
+      optimizeDeps: { exclude: ['@duxweb/vitepress-theme'] }
+    }
+  })
+  ```
+
 Homepage example:
 
 ```md

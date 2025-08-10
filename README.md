@@ -82,6 +82,18 @@ export default {
 }
 ```
 
+搜索提示：
+- 默认无需额外配置即可运行；若未做额外配置，搜索会“优雅降级”为空索引（不报错但无结果）。
+- 如需启用“完整搜索”，在 `.vitepress/config` 添加：
+  ```ts
+  export default defineConfig({
+    vite: {
+      ssr: { noExternal: ['@duxweb/vitepress-theme'] },
+      optimizeDeps: { exclude: ['@duxweb/vitepress-theme'] }
+    }
+  })
+  ```
+
 首页示例：
 
 ```md
