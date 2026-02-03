@@ -219,7 +219,7 @@ hero:
 features:
   - icon: ⚡
     title: 极速体验
-    details: 基于 Vite 4，享受快如闪电的开发体验
+    details: 基于 Vite，享受快如闪电的开发体验
     color: blue
     link: /guide/performance
     

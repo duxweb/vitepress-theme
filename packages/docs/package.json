@@ -5,7 +5,7 @@
   "description": "Documentation site for Dux VitePress Theme",
   "type": "module",
   "scripts": {
-    "dev": "vitepress dev",
+    "dev": "pnpm -C ../theme build && vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
   },

@@ -1,13 +1,14 @@
 # @duxweb/vitepress-theme
 
-现代、优雅、可定制的 VitePress 文档主题。
+现代、优雅、可定制的 VitePress 文档主题，适合技术文档与项目站点。
 
 - ✨ 现代设计 · 亮/暗色支持
 - 🌍 多语言 · 语言跳转页
 - 📚 多布局 · Home / Doc / Page / Sponsor / Changelog / Jump
-- 🔍 本地搜索 · Minisearch 集成
+- 🔍 本地搜索 · MiniSearch 集成
+- 🧩 Mermaid · 内置样式与快速集成
 
-## 要求
+## 环境要求
 - Node.js ≥ 18
 - VitePress ^1.6.4
 
@@ -20,33 +21,26 @@ pnpm add @duxweb/vitepress-theme
 npm i @duxweb/vitepress-theme
 ```
 
-### 2. 配置 VitePress
-在 `.vitepress/config.mts` 中添加必要的 Vite 配置：
+### 2. 最小化配置（推荐）
+`withDuxTheme` 会自动注入 `vite.ssr.noExternal`、`optimizeDeps.exclude`，同时启用 Mermaid 集成。
 
 ```ts
 // .vitepress/config.mts
-import { defineConfig } from 'vitepress'
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
-export default defineConfig({
+export default withDuxTheme({
   title: 'My Docs',
   description: 'Modern VitePress Theme',
-  
-  // ⚠️ 重要：必须添加以下配置才能正常运行
-  vite: {
-    ssr: { noExternal: ['@duxweb/vitepress-theme'] },
-    optimizeDeps: { exclude: ['@duxweb/vitepress-theme'] }
-  },
-  
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/guide/' },
       { text: 'Reference', link: '/reference/' }
-    ],
-    ...
-  }
+    ]
+  },
+  // mermaidPlugin 可选：用于自定义 Mermaid 行为
+  mermaidPlugin: {}
 })
 ```
-
 
 ### 3. 扩展主题
 在 `.vitepress/theme/index.ts` 中：
@@ -63,10 +57,33 @@ export default {
 
 > 提示：主题 CSS 已为编译产物，通常无需再次压缩。
 
+## 最小化配置（推荐）
+在 `.vitepress/config.mts` 中使用：
+
+```ts
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
+  // 其他配置...
+  // mermaidPlugin 可选：用于自定义 Mermaid 行为
+  mermaidPlugin: {}
+})
+```
+
+Markdown 中直接使用：
+
+````md
+```mermaid
+graph TD
+  A[Start] --> B{OK?}
+  B -->|Yes| C[Ship]
+  B -->|No| D[Fix]
+```
+````
+
 ## 搜索功能说明
 - 主题内置本地搜索，已实现"动态导入 + 优雅降级"
-- 如果未配置 `vite.ssr.noExternal`，搜索会降级为空索引（不报错，但无结果）
-- 正确配置后，搜索功能将完整启用
+- 使用 `withDuxTheme` 时会自动注入所需 Vite 配置，搜索可完整启用
 
 ## 首页示例
 ```md
@@ -88,4 +105,3 @@ features:
 
 ## 许可证
 MIT
-

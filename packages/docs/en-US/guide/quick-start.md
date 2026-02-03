@@ -36,19 +36,16 @@ yarn add @duxweb/vitepress-theme
 
 ## Configure the theme
 
-### Configure VitePress
+### Configure VitePress (minimal)
 
-Add the required Vite configuration in `.vitepress/config.ts`:
+Use the minimal config in `.vitepress/config.ts`:
 
 ```typescript
-import { defineConfig } from 'vitepress'
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
-export default defineConfig({
-  // ⚠️ Important: The following vite configuration is required for the theme to work properly
-  vite: {
-    ssr: { noExternal: ['@duxweb/vitepress-theme'] },
-    optimizeDeps: { exclude: ['@duxweb/vitepress-theme'] }
-  }
+export default withDuxTheme({
+  // your site config...
+  mermaidPlugin: {}
 })
 ```
 

@@ -9,7 +9,9 @@ Two layers of configuration:
 ### VitePress Config (`.vitepress/config.mts`)
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   // Site basics
   title: 'Site Title',
   description: 'Site description',

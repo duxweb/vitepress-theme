@@ -31,9 +31,9 @@ description: 文档描述信息
 
 ```typescript
 // .vitepress/config.ts
-import { defineConfig } from 'vitepress'
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
-export default defineConfig({
+export default withDuxTheme({
   themeConfig: {
     // 侧边栏配置
     sidebar: {

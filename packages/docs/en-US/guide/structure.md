@@ -34,11 +34,13 @@ my-docs/
 VitePress main config for site info, theme config, and plugins.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   // Site config
   title: 'Site Title',
   description: 'Site description',
-  lang: 'zh-CN',
+  lang: 'en-US',
   
   // Theme config
   themeConfig: {
@@ -53,7 +55,7 @@ Theme entry file:
 
 ```typescript
 import DuxTheme from '@duxweb/vitepress-theme'
-import '@duxweb/vitepress-theme/styles'
+import '@duxweb/vitepress-theme/dist/index.css'
 
 export default DuxTheme
 ```

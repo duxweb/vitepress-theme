@@ -10,7 +10,9 @@ Footer configuration options.
 Global footer configuration.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     footer: {
       message: 'Released under the MIT License',

@@ -11,7 +11,11 @@ export default defineConfig({
   build: {
     emptyOutDir: true,
     lib: {
-      entry: resolve(__dirname, 'index.ts'),
+      entry: {
+        index: resolve(__dirname, 'index.ts'),
+        config: resolve(__dirname, 'config.ts'),
+        withDuxMermaid: resolve(__dirname, 'withDuxMermaid.ts')
+      },
       formats: ['es', 'cjs']
     },
     rollupOptions: {
@@ -23,7 +27,9 @@ export default defineConfig({
         '@vueuse/core',
         '@vueuse/integrations/useFocusTrap',
         'mark.js/src/vanilla.js',
-        'focus-trap'
+        'focus-trap',
+        'vitepress-plugin-mermaid',
+        'mermaid'
       ],
       output: [
         {

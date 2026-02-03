@@ -32,8 +32,9 @@ Welcome to the Dux VitePress theme! A modern and elegant VitePress documentation
 
 ### Advanced
 
-- Search (coming soon)
-- Custom Styles (coming soon)
+- [Search](./search)
+- [Custom Styles](./custom-style)
+- [Mermaid Diagrams](./mermaid)
 
 ## 🔧 Reference
 
@@ -57,8 +58,8 @@ Welcome to the Dux VitePress theme! A modern and elegant VitePress documentation
 
 ### Developers
 1. [Directory Structure](./structure)
-2. Custom Styles (coming soon)
-3. Search (coming soon)
+2. [Custom Styles](./custom-style)
+3. [Search](./search)
 
 ### Maintainers
 1. [Internationalization](./i18n)

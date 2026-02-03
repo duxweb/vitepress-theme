@@ -10,7 +10,9 @@
 导航菜单配置。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },

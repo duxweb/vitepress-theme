@@ -79,14 +79,14 @@ quickStart:
       color: "blue"
       title: "安装主题"
       description: "使用包管理器快速安装"
-      code: "npm install @duxweb/vitepress-theme-dux"
+      code: "npm install @duxweb/vitepress-theme"
     - step: "02"
       icon: "cog-8-tooth"
       color: "green"
       title: "配置主题"
       description: "在 VitePress 配置中启用主题"
       code: |
-        import { DuxTheme } from '@duxweb/vitepress-theme-dux'
+        import DuxTheme from '@duxweb/vitepress-theme'
 
         export default {
            extends: DuxTheme

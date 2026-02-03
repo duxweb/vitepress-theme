@@ -69,7 +69,9 @@ jump:
 
 ```typescript
 // .vitepress/config.ts
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   locales: {
     root: {
       label: '简体中文',
@@ -137,7 +139,9 @@ Our website supports both Chinese and English. The system will automatically red
 
 ```typescript
 // .vitepress/config.ts
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   locales: {
     root: {
       label: '简体中文',
@@ -209,7 +213,9 @@ DuxCMS 是一个现代化的内容管理系统，我们提供多语言文档支�
 
 ```typescript
 // .vitepress/config.ts
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   locales: {
     root: {
       label: '简体中文',

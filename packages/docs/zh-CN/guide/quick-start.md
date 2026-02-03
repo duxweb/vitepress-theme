@@ -36,19 +36,16 @@ yarn add @duxweb/vitepress-theme
 
 ## 配置主题
 
-### 配置 VitePress
+### 配置 VitePress（最小化）
 
-在 `.vitepress/config.ts` 中添加必需的 Vite 配置：
+在 `.vitepress/config.ts` 中使用最小化配置：
 
 ```typescript
-import { defineConfig } from 'vitepress'
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
-export default defineConfig({
-  // ⚠️ 重要：以下 vite 配置是必需的，否则主题无法正常运行
-  vite: {
-    ssr: { noExternal: ['@duxweb/vitepress-theme'] },
-    optimizeDeps: { exclude: ['@duxweb/vitepress-theme'] }
-  }
+export default withDuxTheme({
+  // 你的站点配置...
+  mermaidPlugin: {}
 })
 ```
 

@@ -62,7 +62,9 @@ Please choose your preferred language.
 
 ```typescript
 // .vitepress/config.ts
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   locales: {
     root: {
       label: '简体中文',
@@ -124,7 +126,9 @@ We support English and Chinese. The system will automatically redirect based on 
 
 ```typescript
 // .vitepress/config.ts
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   locales: {
     root: {
       label: '简体中文',

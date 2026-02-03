@@ -10,7 +10,9 @@
 全站页脚配置。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     footer: {
       message: '基于 MIT 许可发布',

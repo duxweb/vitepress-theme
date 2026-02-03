@@ -1,13 +1,15 @@
 # 搜索功能
 
-Dux 主题内置本地搜索能力，支持中英文分词。
+Dux 主题内置本地搜索能力，支持中英文搜索。
 
 ## 启用本地搜索
 
 在 `.vitepress/config.mts` 中开启：
 
 ```ts
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     search: {
       provider: 'local'

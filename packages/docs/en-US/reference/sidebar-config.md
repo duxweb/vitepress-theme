@@ -10,7 +10,9 @@ Sidebar navigation configuration options.
 Sidebar menu configuration. Can be an array (single sidebar) or an object (different sidebars per path).
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     sidebar: [
       {

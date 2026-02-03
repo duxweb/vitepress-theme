@@ -219,7 +219,7 @@ hero:
 features:
   - icon: ⚡
     title: Lightning Fast
-    details: Built on Vite 4 for a lightning-fast dev experience
+    details: Built on Vite for a lightning-fast dev experience
     color: blue
     link: /guide/performance
     

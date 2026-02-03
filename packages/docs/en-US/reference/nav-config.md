@@ -10,7 +10,9 @@ Navbar menu configuration options.
 Navigation menu configuration.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },

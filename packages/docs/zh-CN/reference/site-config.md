@@ -9,9 +9,9 @@
 使用 Dux VitePress 主题提供的配置函数，它是对 VitePress `defineConfig` 的扩展封装。
 
 ```typescript
-import { defineConfig } from 'vitepress'
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
-export default defineConfig({
+export default withDuxTheme({
   // 站点配置选项...
   themeConfig: {
     // Dux 主题配置...
@@ -29,7 +29,9 @@ export default defineConfig({
 网站标题。这将是所有页面标题的后缀，并显示在导航栏中。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   title: 'Dux VitePress Theme'
 })
 ```
@@ -42,7 +44,9 @@ export default defineConfig({
 网站描述。这将作为网站的 meta 描述标签。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   description: '现代优雅的 VitePress 文档主题'
 })
 ```
@@ -55,7 +59,9 @@ export default defineConfig({
 要在页面 HTML 的 `<head>` 标签中呈现的其他元素。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['meta', { name: 'theme-color', content: '#3b82f6' }],
@@ -72,7 +78,9 @@ export default defineConfig({
 网站的 lang 属性。这将作为页面 HTML 中的 `<html lang="en-US">` 标签呈现。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   lang: 'zh-CN'
 })
 ```
@@ -85,7 +93,9 @@ export default defineConfig({
 是否启用暗色模式切换功能。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   appearance: true, // 启用暗色模式切换
   // appearance: 'dark', // 默认暗色模式
   // appearance: 'force-dark', // 强制暗色模式
@@ -101,7 +111,9 @@ export default defineConfig({
 是否使用 Git 提交的时间戳来显示每个页面的最后更新时间。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   lastUpdated: true
 })
 ```
@@ -117,7 +129,9 @@ export default defineConfig({
 多语言配置对象。键为路径前缀，值为语言配置。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   locales: {
     root: {
       label: '简体中文',
@@ -160,7 +174,9 @@ export default defineConfig({
 站点将部署到的基础 URL。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   base: '/docs/' // 如果部署到 https://example.com/docs/
 })
 ```
@@ -173,7 +189,9 @@ export default defineConfig({
 构建输出目录，相对于项目根目录。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   outDir: '../dist'
 })
 ```
@@ -186,7 +204,9 @@ export default defineConfig({
 缓存文件存储目录，相对于项目根目录。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   cacheDir: '.vitepress/cache'
 })
 ```
@@ -199,7 +219,9 @@ export default defineConfig({
 主题的 CSS 已是编译后的产物，不需要再次压缩。为避免个别压缩器产生无关警告，建议关闭 CSS 压缩：
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   vite: {
     build: {
       cssMinify: false

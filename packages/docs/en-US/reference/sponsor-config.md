@@ -284,7 +284,9 @@ You can localize UI labels via `themeConfig.langs.sponsor`:
 
 ```typescript
 // .vitepress/config.ts
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     langs: {
       sponsor: {

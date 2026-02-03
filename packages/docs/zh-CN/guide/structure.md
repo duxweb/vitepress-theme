@@ -36,7 +36,9 @@ my-docs/
 VitePress 的主配置文件，用于配置站点信息、主题配置、插件等。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   // 站点配置
   title: '站点标题',
   description: '站点描述',
@@ -55,7 +57,7 @@ export default defineConfig({
 
 ```typescript
 import DuxTheme from '@duxweb/vitepress-theme'
-import '@duxweb/vitepress-theme/styles'
+import '@duxweb/vitepress-theme/dist/index.css'
 
 export default DuxTheme
 ```

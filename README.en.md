@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://duxweb.github.io/vitepress/" target="_blank">📖 Documentation</a> ·
+  <a href="https://duxweb.github.io/vitepress-theme/" target="_blank">📖 Documentation</a> ·
   <a href="https://github.com/duxweb/vitepress-theme" target="_blank">🏠 GitHub</a> ·
   <a href="https://www.dux.cn" target="_blank">🌐 Website</a>
 </p>
@@ -34,7 +34,7 @@
 - 🎨 **Modern design**: elegant UI with light/dark modes
 - 🌍 **Internationalization**: full i18n support and jump page
 - 📚 **Multiple layouts**: Home / Doc / Page / Sponsor / Changelog / Jump
-- 🔍 **Local search**: built-in search with Chinese segmentation
+- 🔍 **Local search**: built-in search with graceful fallback
 - 🧩 **Rich components**: custom containers, code groups, badges, Mermaid, etc.
 - ⚡ **High performance**: powered by VitePress 1.x
 
@@ -51,13 +51,13 @@ vitepress-monorepo/
 └─ README.md / README.en.md
 ```
 
-> Docs deploy to `https://duxweb.github.io/vitepress/` by default.
+> Docs deploy to `https://duxweb.github.io/vitepress-theme/` by default.
 
 ---
 
 ## 🚀 Get Started (Use in your project)
 
-Install the theme:
+### 1. Install
 
 ```bash
 pnpm add @duxweb/vitepress-theme
@@ -65,7 +65,7 @@ pnpm add @duxweb/vitepress-theme
 npm i @duxweb/vitepress-theme
 ```
 
-Enable the theme:
+### 2. Enable the theme
 
 ```ts
 // .vitepress/theme/index.ts
@@ -77,19 +77,21 @@ export default {
 }
 ```
 
-Search note:
-- Works out of the box with graceful fallback. Without extra config, search runs with an empty index (no crash, but no results).
-- To enable full search, add the following to `.vitepress/config`:
-  ```ts
-  export default defineConfig({
-    vite: {
-      ssr: { noExternal: ['@duxweb/vitepress-theme'] },
-      optimizeDeps: { exclude: ['@duxweb/vitepress-theme'] }
-    }
-  })
-  ```
+### 3. Minimal config (recommended)
+Automatically injects `vite.ssr.noExternal`, `optimizeDeps.exclude`, and enables Mermaid integration.
 
-Homepage example:
+```ts
+// .vitepress/config.mts
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
+  // your config...
+  // mermaidPlugin is optional: customize Mermaid behavior
+  mermaidPlugin: {}
+})
+```
+
+### 5. Homepage example
 
 ```md
 ---
@@ -128,13 +130,15 @@ pnpm preview
 
 > The docs build auto-sets `base` by environment:
 > - Local: `/`
-> - GitHub Pages: `/vitepress/`
+> - GitHub Pages: `/vitepress-theme/`
 
 Docs config disables CSS minification (theme CSS is already compiled):
 
 ```ts
 // packages/docs/.vitepress/config.mts
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   vite: {
     build: {
       cssMinify: false
@@ -166,10 +170,10 @@ This repo ships with `.github/workflows/deploy-docs.yml`.
 
 - Triggers: push to `main` or manual run
 - Artifact: `packages/docs/.vitepress/dist`
-- URL: `https://duxweb.github.io/vitepress/`
+- URL: `https://duxweb.github.io/vitepress-theme/`
 
 If deploying in your own repo, make sure:
-- VitePress `base` matches your repo name (e.g., `/vitepress/`)
+- VitePress `base` matches your repo name (e.g., `/vitepress-theme/`)
 - Actions has Pages permissions and uploads the dist
 
 ---

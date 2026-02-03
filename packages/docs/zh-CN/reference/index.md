@@ -9,7 +9,9 @@ Dux VitePress 主题提供了丰富的配置选项，让你能够打造独特的
 ### VitePress 配置 (`.vitepress/config.mts`)
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   // 站点基础配置
   title: '站点标题',
   description: '站点描述',

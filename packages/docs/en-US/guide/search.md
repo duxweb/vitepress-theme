@@ -7,7 +7,9 @@ Dux theme includes built-in local search with multilingual support.
 Enable in `.vitepress/config.mts`:
 
 ```ts
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     search: {
       provider: 'local'

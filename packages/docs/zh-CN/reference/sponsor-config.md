@@ -302,7 +302,9 @@ Dux VitePress Theme 是一个开源项目，我们投入了大量的时间和精
 
 ```typescript
 // .vitepress/config.ts
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     langs: {
       sponsor: {

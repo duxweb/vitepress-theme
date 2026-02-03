@@ -21,7 +21,9 @@
 Dux 主题特有的多语言文本配置：
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     langs: {
       notFound: {

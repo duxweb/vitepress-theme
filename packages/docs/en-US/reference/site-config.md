@@ -9,9 +9,9 @@ Site configuration options are set in the `.vitepress/config.ts` file. These opt
 Use the configuration function provided by VitePress. It’s the standard VitePress `defineConfig`.
 
 ```typescript
-import { defineConfig } from 'vitepress'
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
-export default defineConfig({
+export default withDuxTheme({
   // Site options...
   themeConfig: {
     // Dux theme options...
@@ -29,7 +29,9 @@ export default defineConfig({
 Site title. This will be used as the suffix of all page titles and displayed in the navbar.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   title: 'Dux VitePress Theme'
 })
 ```
@@ -42,7 +44,9 @@ export default defineConfig({
 Site description. This will be used as the meta description tag of the site.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   description: 'A modern and elegant VitePress documentation theme'
 })
 ```
@@ -55,7 +59,9 @@ export default defineConfig({
 Additional elements to render inside the page HTML `<head>`.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['meta', { name: 'theme-color', content: '#3b82f6' }],
@@ -72,7 +78,9 @@ export default defineConfig({
 The html `lang` attribute. It will render as `<html lang="en-US">`.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   lang: 'en-US'
 })
 ```
@@ -85,7 +93,9 @@ export default defineConfig({
 Whether to enable dark mode toggle and how it behaves.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   appearance: true, // enable dark mode toggle
   // appearance: 'dark', // default to dark
   // appearance: 'force-dark', // force dark mode
@@ -101,7 +111,9 @@ export default defineConfig({
 Whether to use Git commit timestamps to show the last updated time of each page.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   lastUpdated: true
 })
 ```
@@ -116,7 +128,9 @@ export default defineConfig({
 Multi-language configuration object. Keys are path prefixes, values are language configs.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   locales: {
     root: {
       label: '简体中文',
@@ -159,7 +173,9 @@ Single-language configuration object:
 Base URL the site will be deployed at.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   base: '/docs/' // If deploying to https://example.com/docs/
 })
 ```
@@ -172,7 +188,9 @@ export default defineConfig({
 Build output directory, relative to project root.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   outDir: '../dist'
 })
 ```
@@ -185,7 +203,9 @@ export default defineConfig({
 Cache directory for build artifacts, relative to project root.
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   cacheDir: '.vitepress/cache'
 })
 ```
@@ -198,7 +218,9 @@ export default defineConfig({
 The theme CSS is already compiled and does not need further minification. To avoid irrelevant warnings from some minifiers, disable CSS minification:
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   vite: {
     build: {
       cssMinify: false

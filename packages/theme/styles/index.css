@@ -4,7 +4,6 @@
 /* 导入样式模块 */
 @import "./base.css";
 @import "./components.css";
-@import "./components/page-hero.css";
 @import "./pages/single-page.css";
 @import "./pages/changelog.css";
 @import "./pages/sponsor.css";
@@ -12,9 +11,6 @@
 @import "./nav-dropdown.css";
 @import "./search.css";
 @import "./docs.css";
-@import "./docs/layout.css";
-@import "./docs/prose.css";
-@import "./docs/custom-blocks.css";
 @import "./code.css";
 @import "./theme-toggle.css";
 @import "./mermaid.css";

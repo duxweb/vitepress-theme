@@ -21,7 +21,9 @@ Theme configuration options under `themeConfig` in `.vitepress/config.ts`.
 Dux-specific language text configuration:
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     langs: {
       notFound: {

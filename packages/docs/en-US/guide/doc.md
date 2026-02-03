@@ -31,9 +31,9 @@ Main content here...
 
 ```typescript
 // .vitepress/config.ts
-import { defineConfig } from 'vitepress'
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
-export default defineConfig({
+export default withDuxTheme({
   themeConfig: {
     // Sidebar configuration
     sidebar: {

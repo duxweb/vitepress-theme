@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://duxweb.github.io/vitepress/" target="_blank">📖 在线文档</a> ·
+  <a href="https://duxweb.github.io/vitepress-theme/" target="_blank">📖 在线文档</a> ·
   <a href="https://github.com/duxweb/vitepress-theme" target="_blank">🏠 GitHub</a> ·
   <a href="https://www.dux.cn" target="_blank">🌐 官网</a>
 </p>
@@ -34,7 +34,7 @@
 - 🎨 **现代设计**：优雅的 UI，支持亮/暗色主题
 - 🌍 **多语言**：完整的 i18n 支持与语言跳转页
 - 📚 **多种布局**：Home / Doc / Page / Sponsor / Changelog / Jump
-- 🔍 **本地搜索**：内置搜索，支持中文分词
+- 🔍 **本地搜索**：内置搜索与优雅降级
 - 🧩 **丰富组件**：自定义容器、代码组、Badge、Mermaid 等
 - ⚡ **高性能**：基于 VitePress 1.x 与按需构建
 
@@ -53,13 +53,13 @@ vitepress-monorepo/
 └─ README.md
 ```
 
-> 文档站点默认部署到 `https://duxweb.github.io/vitepress/`。
+> 文档站点默认部署到 `https://duxweb.github.io/vitepress-theme/`。
 
 ---
 
 ## 🚀 快速开始（在你的项目中使用主题）
 
-安装主题：
+### 1. 安装主题
 
 ```bash
 # 使用 pnpm
@@ -70,7 +70,7 @@ npm i @duxweb/vitepress-theme
 # yarn add @duxweb/vitepress-theme
 ```
 
-启用主题：
+### 2. 启用主题
 
 ```ts
 // .vitepress/theme/index.ts
@@ -82,19 +82,21 @@ export default {
 }
 ```
 
-搜索提示：
-- 默认无需额外配置即可运行；若未做额外配置，搜索会“优雅降级”为空索引（不报错但无结果）。
-- 如需启用“完整搜索”，在 `.vitepress/config` 添加：
-  ```ts
-  export default defineConfig({
-    vite: {
-      ssr: { noExternal: ['@duxweb/vitepress-theme'] },
-      optimizeDeps: { exclude: ['@duxweb/vitepress-theme'] }
-    }
-  })
-  ```
+### 3. 最小化配置（推荐）
+会自动注入 `vite.ssr.noExternal`、`optimizeDeps.exclude`，并启用 Mermaid 集成。
 
-首页示例：
+```ts
+// .vitepress/config.mts
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
+  // 你的配置...
+  // mermaidPlugin 可选：用于自定义 Mermaid 行为
+  mermaidPlugin: {}
+})
+```
+
+### 5. 首页示例
 
 ```md
 ---
@@ -133,13 +135,15 @@ pnpm preview
 
 > 文档构建已根据 GitHub 环境自动设置 `base`：
 > - 本地：`/`
-> - GitHub Pages：`/vitepress/`
+> - GitHub Pages：`/vitepress-theme/`
 
 同时，文档项目默认关闭 CSS 压缩（主题 CSS 已为编译产物，避免多余压缩与警告）：
 
 ```ts
 // packages/docs/.vitepress/config.mts（已内置）
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   vite: {
     build: {
       cssMinify: false

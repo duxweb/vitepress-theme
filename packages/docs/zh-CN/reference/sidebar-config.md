@@ -10,7 +10,9 @@
 侧边栏菜单配置，可以是数组（单一侧边栏）或对象（多页面侧边栏）。
 
 ```typescript
-export default defineConfig({
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
+
+export default withDuxTheme({
   themeConfig: {
     sidebar: [
       {

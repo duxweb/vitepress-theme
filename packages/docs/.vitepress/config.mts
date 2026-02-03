@@ -1,9 +1,9 @@
-import { defineConfig } from 'vitepress'
+import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
 const isGitHub = process.env.GITHUB_ACTIONS === 'true'
 const BASE = isGitHub ? '/vitepress-theme/' : '/vitepress-theme/'
 
-export default defineConfig({
+export default withDuxTheme({
   base: BASE,
   vite: {
     ssr: {
@@ -81,7 +81,10 @@ export default defineConfig({
             {
               text: '进阶功能',
               items: [
-                { text: '多语言配置', link: '/zh-CN/guide/i18n' }
+                { text: '多语言配置', link: '/zh-CN/guide/i18n' },
+                { text: '搜索功能', link: '/zh-CN/guide/search' },
+                { text: '自定义样式', link: '/zh-CN/guide/custom-style' },
+                { text: 'Mermaid 图表', link: '/zh-CN/guide/mermaid' }
               ]
             }
           ],
@@ -161,7 +164,10 @@ export default defineConfig({
             {
               text: 'Advanced',
               items: [
-                { text: 'Internationalization', link: '/en-US/guide/i18n' }
+                { text: 'Internationalization', link: '/en-US/guide/i18n' },
+                { text: 'Search', link: '/en-US/guide/search' },
+                { text: 'Custom Styles', link: '/en-US/guide/custom-style' },
+                { text: 'Mermaid Diagrams', link: '/en-US/guide/mermaid' }
               ]
             }
           ],
@@ -218,5 +224,7 @@ export default defineConfig({
     footer: {
       copyright: 'Copyright © 2024 <a href="https://duxweb.cn">DuxWeb</a>'
     }
-  }
+  },
+
+  mermaidPlugin: {}
 })
