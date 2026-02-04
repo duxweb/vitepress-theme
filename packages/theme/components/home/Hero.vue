@@ -128,7 +128,7 @@ const mockUrl = computed(() => props.hero.mockUrl || 'vitepress.dev')
                 v-if="hero.image && hero.image.src"
                 :src="resolveAsset(hero.image.src)" 
                 :alt="hero.image.alt || ''" 
-                class="w-full h-full object-cover"
+                class="w-full h-full object-cover object-top-left"
               />
               
               <!-- 占位符 - 当 image 为 false 时显示 -->
