@@ -1,2 +1,4 @@
 packages:
-  - 'packages/*'
+  - packages/*
+overrides:
+  '@duxweb/vitepress-theme': link:packages/theme

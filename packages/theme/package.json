@@ -1,6 +1,6 @@
 {
   "name": "@duxweb/vitepress-theme",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "A modern VitePress theme",
   "type": "module",
   "main": "./dist/cjs/index.cjs",
@@ -17,6 +17,11 @@
       "types": "./dist/types/config.d.ts",
       "import": "./dist/esm/config.js",
       "require": "./dist/cjs/config.cjs"
+    },
+    "./shims/sanitize-url": {
+      "types": "./dist/types/shims/sanitize-url.d.ts",
+      "import": "./dist/esm/shims/sanitize-url.js",
+      "require": "./dist/cjs/shims/sanitize-url.cjs"
     },
     "./dist/index.css": "./dist/esm/vitepress-theme.css"
   },

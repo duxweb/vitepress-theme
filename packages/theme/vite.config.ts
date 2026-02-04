@@ -13,7 +13,8 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(__dirname, 'index.ts'),
-        config: resolve(__dirname, 'config.ts')
+        config: resolve(__dirname, 'config.ts'),
+        'shims/sanitize-url': resolve(__dirname, 'shims/sanitize-url.ts')
       },
       formats: ['es', 'cjs']
     },

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import type { UserConfig } from 'vitepress'
+import type { Alias, AliasOptions } from 'vite'
 
 type DuxConfig = UserConfig & {
   vite?: UserConfig['vite']
@@ -29,6 +30,41 @@ function mergeExclude(value?: string[]) {
   return uniq([...list, '@duxweb/vitepress-theme'])
 }
 
+function mergeAlias(value?: AliasOptions): Alias[] {
+  const aliasList: Alias[] = [
+    {
+      find: /^dayjs\/plugin\//,
+      replacement: 'dayjs/plugin/'
+    },
+    {
+      find: /^dayjs\/esm\/index\.js\/plugin\//,
+      replacement: 'dayjs/plugin/'
+    }
+  ]
+
+  if (Array.isArray(value)) {
+    aliasList.push(...value)
+  } else if (value && typeof value === 'object') {
+    for (const [find, replacement] of Object.entries(value)) {
+      aliasList.push({ find, replacement })
+    }
+  }
+
+  const hasSanitizeAlias = aliasList.some((item) => {
+    if (item.find instanceof RegExp) return item.find.test('@braintree/sanitize-url')
+    return item.find === '@braintree/sanitize-url'
+  })
+
+  if (!hasSanitizeAlias) {
+    aliasList.push({
+      find: /^@braintree\/sanitize-url$/,
+      replacement: '@duxweb/vitepress-theme/shims/sanitize-url'
+    })
+  }
+
+  return aliasList
+}
+
 export function withDuxTheme(config: DuxConfig): UserConfig {
   const vite = config.vite ?? {}
   const ssr = {
@@ -39,13 +75,18 @@ export function withDuxTheme(config: DuxConfig): UserConfig {
     ...(vite.optimizeDeps ?? {}),
     exclude: mergeExclude(vite.optimizeDeps?.exclude)
   }
+  const resolve = {
+    ...(vite.resolve ?? {}),
+    alias: mergeAlias(vite.resolve?.alias)
+  }
 
   return defineConfig({
     ...config,
     vite: {
       ...vite,
       ssr,
-      optimizeDeps
+      optimizeDeps,
+      resolve
     }
   })
 }
