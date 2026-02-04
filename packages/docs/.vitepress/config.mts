@@ -5,17 +5,6 @@ const BASE = isGitHub ? '/vitepress-theme/' : '/vitepress-theme/'
 
 export default withDuxTheme({
   base: BASE,
-  vite: {
-    ssr: {
-      noExternal: ['@duxweb/vitepress-theme']
-    },
-    optimizeDeps: {
-      exclude: ['@duxweb/vitepress-theme']
-    },
-    build: {
-      cssMinify: false
-    }
-  },
   
   // 站点配置
   title: 'Dux Docs',
@@ -224,7 +213,5 @@ export default withDuxTheme({
     footer: {
       copyright: 'Copyright © 2024 <a href="https://duxweb.cn">DuxWeb</a>'
     }
-  },
-
-  mermaidPlugin: {}
+  }
 })

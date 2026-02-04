@@ -1,6 +1,6 @@
 # Mermaid 图表
 
-Dux 主题已为 Mermaid 预置样式。你只需使用 `withDuxTheme` 启用最小化配置，即可在 Markdown 中直接使用流程图、时序图等。
+Dux 主题已内置 Mermaid 运行时渲染与样式。你只需使用主题，即可在 Markdown 中直接使用流程图、时序图等。
 
 ## 安装依赖
 
@@ -17,7 +17,7 @@ npm i @duxweb/vitepress-theme
 yarn add @duxweb/vitepress-theme
 ```
 
-## 启用配置
+## 推荐配置
 
 在 `.vitepress/config.ts` 或 `.vitepress/config.mts` 中使用最小化配置：
 
@@ -26,8 +26,6 @@ import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
 export default withDuxTheme({
   // 其他配置...
-  // mermaidPlugin 可选：用于自定义 Mermaid 行为
-  mermaidPlugin: {}
 })
 ```
 
@@ -71,5 +69,4 @@ sequenceDiagram
 
 ## 常见问题
 
-- 如果图表样式未生效，检查 `mermaidPlugin.class` 是否包含 `dux-mermaid`。
-- 如果图表无法渲染，确认依赖已安装并重新启动开发服务。
+- 如果图表无法渲染，确认主题已升级并重新启动开发服务。

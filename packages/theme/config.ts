@@ -1,14 +1,8 @@
 import { defineConfig } from 'vitepress'
 import type { UserConfig } from 'vitepress'
-import type {} from './types/vitepress'
-import { withDuxMermaid } from './withDuxMermaid'
 
 type DuxConfig = UserConfig & {
   vite?: UserConfig['vite']
-  mermaidPlugin?: {
-    class?: string
-    [key: string]: unknown
-  }
 }
 
 function uniq(items: string[]) {
@@ -46,12 +40,12 @@ export function withDuxTheme(config: DuxConfig): UserConfig {
     exclude: mergeExclude(vite.optimizeDeps?.exclude)
   }
 
-  return withDuxMermaid(defineConfig({
+  return defineConfig({
     ...config,
     vite: {
       ...vite,
       ssr,
       optimizeDeps
     }
-  }))
+  })
 }

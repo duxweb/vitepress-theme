@@ -6,7 +6,6 @@ import Badge from './components/common/Badge.vue'
 
 // 导入全局样式
 import './styles/index.css'
-import { withDuxMermaid } from './withDuxMermaid'
 
 // 导出主题
 export const theme = {
@@ -31,9 +30,6 @@ export { default as SinglePage } from './components/pages/SinglePage.vue'
 export { default as ChangeLog } from './components/pages/ChangeLog.vue'
 export { default as Sponsor } from './components/pages/Sponsor.vue'
 export { default as Jump } from './components/pages/Jump.vue'
-
-// 导出辅助工具
-export { withDuxMermaid }
 
 // 导出类型
 export * from './types'

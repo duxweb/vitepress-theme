@@ -78,7 +78,7 @@ export default {
 ```
 
 ### 3. Minimal config (recommended)
-Automatically injects `vite.ssr.noExternal`, `optimizeDeps.exclude`, and enables Mermaid integration.
+Automatically injects `vite.ssr.noExternal`, `optimizeDeps.exclude`, and enables Mermaid runtime rendering (powered by `vitepress-mermaid-renderer`, GPL-3.0-only).
 
 ```ts
 // .vitepress/config.mts
@@ -86,12 +86,10 @@ import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
 export default withDuxTheme({
   // your config...
-  // mermaidPlugin is optional: customize Mermaid behavior
-  mermaidPlugin: {}
 })
 ```
 
-### 5. Homepage example
+### 4. Homepage example
 
 ```md
 ---
@@ -131,21 +129,6 @@ pnpm preview
 > The docs build auto-sets `base` by environment:
 > - Local: `/`
 > - GitHub Pages: `/vitepress-theme/`
-
-Docs config disables CSS minification (theme CSS is already compiled):
-
-```ts
-// packages/docs/.vitepress/config.mts
-import { withDuxTheme } from '@duxweb/vitepress-theme/config'
-
-export default withDuxTheme({
-  vite: {
-    build: {
-      cssMinify: false
-    }
-  }
-})
-```
 
 ---
 

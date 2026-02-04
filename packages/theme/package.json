@@ -1,6 +1,6 @@
 {
   "name": "@duxweb/vitepress-theme",
-  "version": "1.1.1",
+  "version": "1.1.3",
   "description": "A modern VitePress theme",
   "type": "module",
   "main": "./dist/cjs/index.cjs",
@@ -12,11 +12,6 @@
       "types": "./dist/types/index.d.ts",
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.cjs"
-    },
-    "./mermaid": {
-      "types": "./dist/types/withDuxMermaid.d.ts",
-      "import": "./dist/esm/withDuxMermaid.js",
-      "require": "./dist/cjs/withDuxMermaid.cjs"
     },
     "./config": {
       "types": "./dist/types/config.d.ts",
@@ -42,8 +37,7 @@
     "@iconify/tailwind4": "^1.0.6",
     "@vueuse/core": "^11.3.0",
     "minisearch": "^7.1.2",
-    "mermaid": "^11.12.2",
-    "vitepress-plugin-mermaid": "^2.0.17",
+    "vitepress-mermaid-renderer": "^1.1.8",
     "vue": "^3.5.18"
   },
   "devDependencies": {

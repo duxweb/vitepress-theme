@@ -13,12 +13,7 @@
     "release": "pnpm -C packages/theme release"
   },
   "devDependencies": {
-    "@braintree/sanitize-url": "^6.0.4",
     "@types/node": "^22.19.8",
-    "cytoscape": "^3.32.0",
-    "cytoscape-cose-bilkent": "^4.1.0",
-    "dayjs": "^1.11.13",
-    "debug": "^4.4.1",
     "typescript": "^5.9.3"
   },
   "keywords": [

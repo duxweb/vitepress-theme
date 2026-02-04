@@ -13,8 +13,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(__dirname, 'index.ts'),
-        config: resolve(__dirname, 'config.ts'),
-        withDuxMermaid: resolve(__dirname, 'withDuxMermaid.ts')
+        config: resolve(__dirname, 'config.ts')
       },
       formats: ['es', 'cjs']
     },
@@ -28,8 +27,7 @@ export default defineConfig({
         '@vueuse/integrations/useFocusTrap',
         'mark.js/src/vanilla.js',
         'focus-trap',
-        'vitepress-plugin-mermaid',
-        'mermaid'
+        'vitepress-mermaid-renderer'
       ],
       output: [
         {

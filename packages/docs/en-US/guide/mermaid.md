@@ -1,6 +1,6 @@
 # Mermaid Diagrams
 
-The Dux theme ships Mermaid-friendly styles. Use the minimal config via `withDuxTheme`, then you can write Mermaid diagrams directly in Markdown.
+The Dux theme ships Mermaid runtime rendering and styles. You can write Mermaid diagrams directly in Markdown once the theme is enabled.
 
 ## Install
 
@@ -17,7 +17,7 @@ npm i @duxweb/vitepress-theme
 yarn add @duxweb/vitepress-theme
 ```
 
-## Minimal config
+## Recommended config
 
 Use the minimal config in `.vitepress/config.ts` or `.vitepress/config.mts`:
 
@@ -26,8 +26,6 @@ import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
 export default withDuxTheme({
   // other config...
-  // mermaidPlugin is optional: customize Mermaid behavior
-  mermaidPlugin: {}
 })
 ```
 
@@ -71,5 +69,4 @@ sequenceDiagram
 
 ## Troubleshooting
 
-- If styles look off, make sure `mermaidPlugin.class` includes `dux-mermaid`.
-- If nothing renders, make sure dependencies are installed and restart the dev server.
+- If nothing renders, make sure the theme is updated and restart the dev server.

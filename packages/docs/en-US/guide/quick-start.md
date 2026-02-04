@@ -45,7 +45,6 @@ import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
 export default withDuxTheme({
   // your site config...
-  mermaidPlugin: {}
 })
 ```
 

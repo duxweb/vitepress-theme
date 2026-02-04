@@ -83,7 +83,7 @@ export default {
 ```
 
 ### 3. 最小化配置（推荐）
-会自动注入 `vite.ssr.noExternal`、`optimizeDeps.exclude`，并启用 Mermaid 集成。
+会自动注入 `vite.ssr.noExternal`、`optimizeDeps.exclude`，并启用 Mermaid 运行时渲染（基于 `vitepress-mermaid-renderer`，GPL-3.0-only）。
 
 ```ts
 // .vitepress/config.mts
@@ -91,12 +91,10 @@ import { withDuxTheme } from '@duxweb/vitepress-theme/config'
 
 export default withDuxTheme({
   // 你的配置...
-  // mermaidPlugin 可选：用于自定义 Mermaid 行为
-  mermaidPlugin: {}
 })
 ```
 
-### 5. 首页示例
+### 4. 首页示例
 
 ```md
 ---
@@ -136,21 +134,6 @@ pnpm preview
 > 文档构建已根据 GitHub 环境自动设置 `base`：
 > - 本地：`/`
 > - GitHub Pages：`/vitepress-theme/`
-
-同时，文档项目默认关闭 CSS 压缩（主题 CSS 已为编译产物，避免多余压缩与警告）：
-
-```ts
-// packages/docs/.vitepress/config.mts（已内置）
-import { withDuxTheme } from '@duxweb/vitepress-theme/config'
-
-export default withDuxTheme({
-  vite: {
-    build: {
-      cssMinify: false
-    }
-  }
-})
-```
 
 ---
 

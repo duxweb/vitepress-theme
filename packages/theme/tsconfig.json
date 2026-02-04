@@ -22,7 +22,6 @@
   },
   "include": [
     "index.ts",
-    "withDuxMermaid.ts",
     "config.ts",
     "types/**/*",
     "components/**/*",

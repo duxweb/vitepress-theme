@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { onMounted, watch } from 'vue'
 import { useData } from 'vitepress'
+import { createMermaidRenderer } from 'vitepress-mermaid-renderer'
 import Header from './layout/Header.vue'
 import Footer from './layout/Footer.vue'
 import Home from './pages/Home.vue'
@@ -13,7 +15,29 @@ import MiniSearchModal from './search/MiniSearchModal.vue'
 import { DuxThemeConfig } from '../types/index'
 
 // 获取 VitePress 核心数据
-const { theme, page, frontmatter } = useData<DuxThemeConfig>()
+const { theme, page, frontmatter, isDark } = useData<DuxThemeConfig>()
+
+const initMermaid = (dark: boolean) => {
+  if (typeof window === 'undefined') return
+  createMermaidRenderer({
+    theme: dark ? 'dark' : 'default'
+  })
+}
+
+onMounted(() => {
+  initMermaid(isDark.value)
+})
+
+watch(isDark, (value) => {
+  initMermaid(value)
+})
+
+watch(
+  () => page.value.relativePath,
+  () => {
+    initMermaid(isDark.value)
+  }
+)
 
 </script>
 

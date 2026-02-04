@@ -210,24 +210,3 @@ export default withDuxTheme({
   cacheDir: '.vitepress/cache'
 })
 ```
-
-### cssMinify（推荐：关闭）
-
-- 类型: `boolean | 'lightningcss' | 'esbuild'`
-- 默认值: `true`
-
-主题的 CSS 已是编译后的产物，不需要再次压缩。为避免个别压缩器产生无关警告，建议关闭 CSS 压缩：
-
-```typescript
-import { withDuxTheme } from '@duxweb/vitepress-theme/config'
-
-export default withDuxTheme({
-  vite: {
-    build: {
-      cssMinify: false
-    }
-  }
-})
-```
-
-如确需压缩，可改为 `cssMinify: 'esbuild'`。

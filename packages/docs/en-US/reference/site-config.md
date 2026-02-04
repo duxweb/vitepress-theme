@@ -209,24 +209,3 @@ export default withDuxTheme({
   cacheDir: '.vitepress/cache'
 })
 ```
-
-### cssMinify (Recommended: disable)
-
-- Type: `boolean | 'lightningcss' | 'esbuild'`
-- Default: `true`
-
-The theme CSS is already compiled and does not need further minification. To avoid irrelevant warnings from some minifiers, disable CSS minification:
-
-```typescript
-import { withDuxTheme } from '@duxweb/vitepress-theme/config'
-
-export default withDuxTheme({
-  vite: {
-    build: {
-      cssMinify: false
-    }
-  }
-})
-```
-
-If you still need minification, you can use `cssMinify: 'esbuild'`.

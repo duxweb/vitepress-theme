@@ -22,7 +22,7 @@ npm i @duxweb/vitepress-theme
 ```
 
 ### 2. 最小化配置（推荐）
-`withDuxTheme` 会自动注入 `vite.ssr.noExternal`、`optimizeDeps.exclude`，同时启用 Mermaid 集成。
+`withDuxTheme` 会自动注入 `vite.ssr.noExternal`、`optimizeDeps.exclude`，并启用 Mermaid 运行时渲染。
 
 ```ts
 // .vitepress/config.mts
@@ -37,8 +37,6 @@ export default withDuxTheme({
       { text: 'Reference', link: '/reference/' }
     ]
   },
-  // mermaidPlugin 可选：用于自定义 Mermaid 行为
-  mermaidPlugin: {}
 })
 ```
 
@@ -57,20 +55,8 @@ export default {
 
 > 提示：主题 CSS 已为编译产物，通常无需再次压缩。
 
-## 最小化配置（推荐）
-在 `.vitepress/config.mts` 中使用：
-
-```ts
-import { withDuxTheme } from '@duxweb/vitepress-theme/config'
-
-export default withDuxTheme({
-  // 其他配置...
-  // mermaidPlugin 可选：用于自定义 Mermaid 行为
-  mermaidPlugin: {}
-})
-```
-
-Markdown 中直接使用：
+## Mermaid
+主题内置 Mermaid 运行时渲染与样式，Markdown 中直接使用：
 
 ````md
 ```mermaid
@@ -105,3 +91,5 @@ features:
 
 ## 许可证
 MIT
+
+> Mermaid 运行时渲染基于 `vitepress-mermaid-renderer`（GPL-3.0-only）。
