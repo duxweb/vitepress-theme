@@ -23,6 +23,11 @@
       "import": "./dist/esm/shims/sanitize-url.js",
       "require": "./dist/cjs/shims/sanitize-url.cjs"
     },
+    "./shims/dayjs": {
+      "types": "./dist/types/shims/dayjs.d.ts",
+      "import": "./dist/esm/shims/dayjs.js",
+      "require": "./dist/cjs/shims/dayjs.cjs"
+    },
     "./dist/index.css": "./dist/esm/vitepress-theme.css"
   },
   "files": [
@@ -41,6 +46,7 @@
   "dependencies": {
     "@iconify/tailwind4": "^1.0.6",
     "@vueuse/core": "^11.3.0",
+    "dayjs": "^1.11.20",
     "minisearch": "^7.1.2",
     "vitepress-mermaid-renderer": "^1.1.8",
     "vue": "^3.5.18"

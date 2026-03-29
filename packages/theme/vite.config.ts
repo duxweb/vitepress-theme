@@ -14,13 +14,16 @@ export default defineConfig({
       entry: {
         index: resolve(__dirname, 'index.ts'),
         config: resolve(__dirname, 'config.ts'),
-        'shims/sanitize-url': resolve(__dirname, 'shims/sanitize-url.ts')
+        'shims/sanitize-url': resolve(__dirname, 'shims/sanitize-url.ts'),
+        'shims/dayjs': resolve(__dirname, 'shims/dayjs.ts')
       },
       formats: ['es', 'cjs']
     },
     rollupOptions: {
       external: [
         'vue',
+        'dayjs',
+        /^dayjs\/.*/,
         'vitepress',
         /^vitepress\/.*/,
         'minisearch',

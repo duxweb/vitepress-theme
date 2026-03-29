@@ -33,6 +33,10 @@ function mergeExclude(value?: string[]) {
 function mergeAlias(value?: AliasOptions): Alias[] {
   const aliasList: Alias[] = [
     {
+      find: /^dayjs$/,
+      replacement: '@duxweb/vitepress-theme/shims/dayjs'
+    },
+    {
       find: /^dayjs\/plugin\//,
       replacement: 'dayjs/plugin/'
     },
