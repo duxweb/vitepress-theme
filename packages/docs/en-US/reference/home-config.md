@@ -43,6 +43,14 @@ hero:
   tagline: "A simple, beautiful, and feature-rich documentation solution"
   subtitle: "🚀 Next-generation documentation theme"
   mockUrl: "docs.example.com"
+  qrCodeSize: 144
+  qrCodes:
+    - title: "Mini Program"
+      image: "/wechat-pay.svg"
+      description: "Scan to open the mobile entry"
+    - title: "H5 Preview"
+      image: "/wechat-pay.svg"
+      description: "Scan to open the online preview"
   image:
     src: "/hero-image.png"
     alt: "Dux VitePress Theme"
@@ -66,6 +74,8 @@ hero:
 | `mockUrl` | `string` | `'vitepress.dev'` | Mock browser address bar URL |
 | `image` | `HeroImage` | `undefined` | Hero image configuration |
 | `actions` | `HeroAction[]` | `[]` | Action buttons |
+| `qrCodes` | `HeroQrCode[]` | `[]` | QR entries. When provided, Hero switches to QR mode below the action buttons |
+| `qrCodeSize` | `number | string` | `'8rem'` | QR display size. Accepts a numeric pixel value or any CSS size string |
 
 #### HeroImage
 
@@ -75,6 +85,18 @@ hero:
 | `alt` | `string` | `''` | Alt text |
 
 Special: set `image: false` to show the built-in page mock.
+
+#### HeroQrCode
+
+QR card configuration:
+
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | - | QR card title |
+| `image` | `string` | - | QR image path |
+| `alt` | `string` | `title` | Alt text |
+| `description` | `string` | `undefined` | Supporting text under the title |
+| `link` | `string` | `undefined` | Optional link for the QR card |
 
 #### HeroAction
 

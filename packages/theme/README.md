@@ -82,6 +82,11 @@ hero:
     - theme: brand
       text: Get Started
       link: /guide/
+  qrCodeSize: 144
+  qrCodes:
+    - title: Mini Program
+      image: /wechat-pay.svg
+      description: Scan to open
 features:
   - icon: ⚡
     title: Fast

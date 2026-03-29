@@ -10,6 +10,14 @@ interface HeroAction {
   target?: string
 }
 
+interface HeroQrCode {
+  title: string
+  image: string
+  alt?: string
+  description?: string
+  link?: string
+}
+
 // 定义 Hero 配置接口
 interface HeroConfig {
   name?: string
@@ -22,6 +30,8 @@ interface HeroConfig {
   } | false
   actions?: HeroAction[]
   mockUrl?: string  // 模拟浏览器地址栏的 URL
+  qrCodes?: HeroQrCode[]
+  qrCodeSize?: number | string
 }
 
 // 定义 Props
@@ -43,6 +53,25 @@ const processedActions = computed(() =>
 
 // 模拟URL也使用 computed
 const mockUrl = computed(() => props.hero.mockUrl || 'vitepress.dev')
+const qrCodes = computed(() => props.hero.qrCodes || [])
+const hasQrCodes = computed(() => qrCodes.value.length > 0)
+
+function normalizeCssSize(value: number | string | undefined, fallback: string) {
+  if (value === undefined || value === null || value === '') return fallback
+  return typeof value === 'number' ? `${value}px` : value
+}
+
+const qrCodeSize = computed(() => normalizeCssSize(props.hero.qrCodeSize, '8rem'))
+const qrCardStyle = computed(() => ({ width: `calc(${qrCodeSize.value} + 3rem)` }))
+const qrImageStyle = computed(() => ({ width: qrCodeSize.value, height: qrCodeSize.value }))
+
+function resolveQrLink(link?: string) {
+  return link ? resolveLink(link) : undefined
+}
+
+function getQrTarget(link?: string) {
+  return link && /^https?:\/\//.test(link) ? '_blank' : '_self'
+}
 </script>
 
 <template>
@@ -101,8 +130,38 @@ const mockUrl = computed(() => props.hero.mockUrl || 'vitepress.dev')
         </a>
       </div>
 
+      <div v-if="hasQrCodes" class="scale-in mb-16 flex flex-col items-center">
+        <div class="inline-flex items-center gap-2 rounded-full border border-primary-200/70 bg-white/80 px-4 py-2 text-sm font-medium text-primary-700 shadow-sm backdrop-blur dark:border-primary-800/70 dark:bg-gray-900/70 dark:text-primary-300">
+          <div class="icon-[heroicons--qr-code] h-4 w-4"></div>
+          <span>QR Code</span>
+        </div>
+
+        <div class="mt-6 flex flex-wrap items-start justify-center gap-5">
+          <component
+            v-for="item in qrCodes"
+            :key="`${item.title}-${item.image}`"
+            :is="item.link ? 'a' : 'div'"
+            :href="resolveQrLink(item.link)"
+            :target="item.link ? getQrTarget(item.link) : undefined"
+            :rel="item.link ? 'noopener noreferrer' : undefined"
+            :style="qrCardStyle"
+            class="group rounded-3xl border border-gray-200/80 bg-white/90 p-5 text-center shadow-lg shadow-primary-950/5 backdrop-blur transition-transform duration-200 hover:-translate-y-1 dark:border-gray-700/80 dark:bg-gray-900/85"
+          >
+            <div :style="qrImageStyle" class="mx-auto flex items-center justify-center overflow-hidden rounded-2xl border border-gray-200 bg-white p-2 shadow-sm dark:border-gray-700">
+              <img
+                :src="resolveAsset(item.image)"
+                :alt="item.alt || item.title"
+                class="h-full w-full object-contain"
+              />
+            </div>
+            <div class="mt-4 text-base font-semibold text-gray-900 dark:text-white">{{ item.title }}</div>
+            <div v-if="item.description" class="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">{{ item.description }}</div>
+          </component>
+        </div>
+      </div>
+
       <!-- 产品截图展示区 -->
-      <div v-if="hero.hasOwnProperty('image')" class="scale-in max-w-5xl mx-auto">
+      <div v-if="!hasQrCodes && hero.hasOwnProperty('image')" class="scale-in max-w-5xl mx-auto">
         <div class="relative group">
           <!-- 模拟浏览器窗口 -->
           <div class="relative bg-white dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden">

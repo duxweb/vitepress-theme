@@ -43,6 +43,14 @@ hero:
   tagline: "简洁、美观、功能丰富的文档解决方案"
   subtitle: "🚀 新一代文档主题"
   mockUrl: "docs.example.com"
+  qrCodeSize: 144
+  qrCodes:
+    - title: "小程序"
+      image: "/wechat-pay.svg"
+      description: "扫码体验移动端入口"
+    - title: "H5 预览"
+      image: "/wechat-pay.svg"
+      description: "扫码打开在线预览"
   image:
     src: "/hero-image.png"
     alt: "Dux VitePress Theme"
@@ -66,6 +74,8 @@ hero:
 | `mockUrl` | `string` | `'vitepress.dev'` | 模拟浏览器地址栏显示的 URL |
 | `image` | `HeroImage` | `undefined` | 英雄区展示图片 |
 | `actions` | `HeroAction[]` | `[]` | 操作按钮数组 |
+| `qrCodes` | `HeroQrCode[]` | `[]` | 二维码展示项，传入后将切换为二维码模式并显示在按钮下方 |
+| `qrCodeSize` | `number \| string` | `'8rem'` | 二维码显示尺寸，支持数字像素值或任意 CSS 尺寸字符串 |
 
 #### HeroImage
 
@@ -77,6 +87,18 @@ hero:
 | `alt` | `string` | `''` | 图片替代文字 |
 
 **特殊值**：如果设置 `image: false`，将显示内置的页面模拟效果。
+
+#### HeroQrCode
+
+二维码卡片配置：
+
+| 属性 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `title` | `string` | - | 二维码标题 |
+| `image` | `string` | - | 二维码图片路径 |
+| `alt` | `string` | `title` | 图片替代文字 |
+| `description` | `string` | `undefined` | 二维码说明文字 |
+| `link` | `string` | `undefined` | 点击二维码卡片跳转链接 |
 
 #### HeroAction
 
