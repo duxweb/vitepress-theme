@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.31.0",
   "description": "VitePress theme monorepo",
   "scripts": {
     "dev": "pnpm -C packages/docs dev",
@@ -13,7 +14,7 @@
     "release": "pnpm -C packages/theme release"
   },
   "devDependencies": {
-    "@types/node": "^22.19.8",
+    "@types/node": "^22.19.15",
     "typescript": "^5.9.3"
   },
   "keywords": [
